@@ -1,0 +1,15 @@
+{
+  "name": "renderbot",
+  "version": "1.0.0",
+  "description": "no messages in #renders",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "battlesquid",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "firebase-admin": "^8.11.0"
+  }
+}
