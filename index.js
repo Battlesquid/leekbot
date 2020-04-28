@@ -38,4 +38,4 @@ bot.on('ready', () => {
     load();
 });
 
-bot.login('NzA0MzgzOTY1NTE1MjE4OTg0.XqcWtA.oNYLYHIjEXHSlCZUkFbwvJyCVr0');
+bot.login(process.env.TOKEN);
