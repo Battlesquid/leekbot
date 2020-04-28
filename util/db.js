@@ -1,8 +1,13 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('../firebase/renderbot_service.json');
+const firebase = require("firebase");
+firebase.initializeApp({
+    apiKey: process.env.APIKEY,
+    authDomain: process.env.AUTHDOMAIN,
+    databaseURL: process.env.DBURL,
+    projectId: process.env.PROJECTID,
+    storageBucket: process.env.STORAGEBUCKET,
+    messagingSenderId: process.env.MSGID,
+    appId: process.env.APPID,
+    measurementId: process.env.MEASUREID
+});
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://renderbot-95c17.firebaseio.com"
-  });
-module.exports = admin.database();
+module.exports = firebase.database();
