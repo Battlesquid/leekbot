@@ -2,6 +2,8 @@
 
 A bot to keep selected channels clean of messages (attachment only channels). This is something not implemented in discord so this bot handles it. The prefix is `;` (semicolon).
 
+**Invite Link:** https://discordapp.com/oauth2/authorize?client_id=704383965515218984&permissions=11264&scope=bot
+
 ## Usage
 
 **;readonlyon `[channels]`**
