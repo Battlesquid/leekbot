@@ -15,7 +15,14 @@ module.exports = async (bot, msg) => {
             const file = firebase.storage.file(`${msg.guild.id}${msg.id}.${type}`);
             const data = await file.get().then(res => res).catch(e => console.log(e));
 
-            log_channel.send({ files: [data[1].mediaLink] });
+            const embed = new MessageEmbed();
+            embed.setTitle('Image Deleted!')
+                .setDescription(`Sent by ${msg.author} in ${msg.channel}.`)
+                .setColor(0xEB4034)
+                .setImage(data[1].mediaLink)
+                .setThumbnail(msg.author.avatarURL())
+                .setFooter(`Sent at ${msg.createdAt}`)
+            log_channel.send(embed);
         } catch (e) {
             console.log(e);
         }

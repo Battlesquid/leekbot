@@ -12,9 +12,11 @@ module.exports = {
 
       const snapshot = await firebase.readDatabaseAt(`${msg.guild.id}/log_channel`, 'value');
       const value = snapshot.val();
+      let active_channel;
 
-      const active_channel = await msg.client.channels.fetch(value);
-
+      if (value !== "0") {
+        active_channel = await msg.client.channels.fetch(value);
+      }
       //if there is an active log
       if (value !== "0") {
         if (value === channel.id) {
@@ -29,6 +31,7 @@ module.exports = {
             .catch(e => console.log(e));
         }
       } else {
+
         //if the location is empty ("0")
         firebase.database.ref(`${msg.guild.id}/log_channel`).set(channel.id)
           .then(() => msg.reply(`deleted images will now be logged in ${log_channel}.`))
