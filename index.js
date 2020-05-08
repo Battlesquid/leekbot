@@ -4,6 +4,8 @@ const bot = new Client();
 
 bot.cmds = {};
 
+require('dotenv').config();
+
 async function load() {
     fs.readdir('./commands', (err, files) => {
         if (err) return console.error(err);
@@ -33,8 +35,9 @@ bot.on('ready', () => {
             name: 'for messages.',
             type: "WATCHING"
         },
-      status: 'online'
+        status: 'online'
     });
+    console.log('Ready, loading commands...')
     load();
 });
 

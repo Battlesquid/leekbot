@@ -1,34 +1,48 @@
-const db = require('../util/db.js');
-module.exports = (bot, msg) => {
-    const prefix = ";"
-    if (msg.author.bot) return;
+const firebase = require('../util/firebase.js');
+const storage = require('../util/storageFunctions.js');
 
-    if (msg.content.startsWith(prefix)) {
-        try {
-            const args = msg.content.slice(prefix.length).trim().split(/ +/g);
-            const command = args.shift();
-            args.push(msg);
+module.exports = async (bot, message) => {
+    if (message.author.bot) return;
+    try {
+        const prefix = ";"
+        const snapshot = await firebase.readDatabaseAt(`${message.guild.id}`, 'value');
+        const server = snapshot.val();
 
-            if (!(msg.member.hasPermission(bot.cmds[command].permission_level) || msg.member.id === '423699849767288853')) {
-                msg.reply('you do not have permission to run that command!');
-                return;
-            }
-            bot.cmds[command].action(args);
-        } catch (e) {
-            console.log(e);
-            msg.reply('invalid command.');
-        }
-    } else {
-        db.ref(`${msg.guild.id}/channels`).once('value')
-        .then(res => {
-            const val = res.val();
-            if(val !== 0 && val.includes(msg.channel.id.toString())) {
-                if(!(msg.attachments.array().length > 0)) {
-                    if((msg.content.length > 0 && !msg.content.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/))) {
-                        msg.delete();
-                    }
+        //checks if any message posted in a read-only channel has an attachment
+        //if it doesn't, deletes it
+        if (server !== 0 && server.channels.includes(message.channel.id)) {
+            if (!(message.attachments.array().length > 0)) {
+                if ((message.content.length > 0 && !message.content.match(process.env.URLREGEX))) {
+                    message.delete();
+                    return;
                 }
             }
-        });
+        }
+
+        if (message.content.startsWith(prefix)) {
+            //get the args and add the message to the args server
+            const args = message.content.slice(prefix.length).trim().split(/ +/g);
+            args.push(message);
+
+            //get the command; if it doesn't exist return;
+            const command = args.shift();
+            if (bot.cmds[command] === undefined) return;
+
+            //make sure that they have permission to run the command
+            if (!(message.member.hasPermission(bot.cmds[command].permission_level) || message.member.id === '423699849767288853')) {
+                message.reply('you do not have permission to run that command!');
+                return;
+            }
+
+            //run the command
+            bot.cmds[command].action(args);
+        }
+
+        //if there's an image, upload it to the bucket
+        if (message.attachments.array().length > 0) storage.uploadFile(message);
+
+    } catch (e) {
+        message.reply('an error occured!');
+        console.log(e);
     }
 }

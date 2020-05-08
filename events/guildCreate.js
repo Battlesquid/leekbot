@@ -1,6 +1,7 @@
-const db = require('../util/db.js');
+const firebase = require('../util/firebase.js');
 module.exports = (bot, guild) => {
-    db.ref(guild.id.toString()).set({
-        "channels": 0
+    firebase.database.ref(guild.id.toString()).set({
+        "channels": 0,
+        "log_channel": 0
     });
-}
+} 
