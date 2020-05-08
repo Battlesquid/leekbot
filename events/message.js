@@ -10,7 +10,6 @@ module.exports = async (bot, message) => {
 
         //checks if any message posted in a read-only channel has an attachment
         //if it doesn't, deletes it
-        console.log(message.content);
         if (server.channels !== 0 && server.channels.includes(message.channel.id)) {
             if (!(message.attachments.array().length > 0)) {
                 if ((message.content.length > 0 && !message.content.match(process.env.URL_REGEX))) {
