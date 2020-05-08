@@ -7,13 +7,13 @@ A bot to keep selected channels clean of messages (attachment only channels). Th
 # Commands
 
 ### Moderation
-**;readOnlyOn `[channels]`**
+**;readonlyon `[channels]`**
 Takes one or more channels as parameters and disables messages in them. Please note that channels must be mentionable (starts with "#" and is highlighted on hover) and cannot be just plain text!
 
-**;readOnlyOff `[channels]`**
+**;readonlyoff `[channels]`**
 Enables messages in the selected channels.
 
-**;logImagesTo `[channel]`**
+**;logimagesto `[channel]`**
 Implements image logging. When an image is deleted, the image will be posted to the specified channel.
 
 ## Contributing
