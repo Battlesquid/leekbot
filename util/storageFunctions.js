@@ -5,7 +5,7 @@ module.exports = {
     uploadFile(msg) {
         //get the attachment and type of attachment; rename the attachment in the format {guild id}{message id}{filetype}
         const attachment = msg.attachments.first();
-        const type = attachment.url.match(/.*\.(png|jpeg|jpg|mp4|webp|gif)/)[1];
+        const type = attachment.url.match(/.*\.(png|jpeg|jpg|mp4|webp|gif)/i)[1];
         attachment.name = `${msg.guild.id}${msg.id}.${type}`;
 
         //create a file in the storage bucket
