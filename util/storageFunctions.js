@@ -6,9 +6,10 @@ module.exports = {
         //get the attachment and type of attachment; rename the attachment in the format {guild id}{message id}{filetype}
         const attachment = msg.attachments.first();
         const type = attachment.url.match(/.*\.(png|jpeg|jpg|mp4|webp|gif)/i);
-       
-        if(type === null) return;
-        attachment.name = `${msg.guild.id}${msg.id}.${type[0]}`;
+        console.log(type);
+        if (type === null) return;
+        attachment.name = `${msg.guild.id}/${msg.id}.${type[1]}`;
+        console.log(attachment.name);
 
         //create a file in the storage bucket
         const file = firebase.storage.file(attachment.name);

@@ -1,7 +1,7 @@
 const firebase = require('../util/firebase.js');
 const { MessageEmbed } = require('discord.js');
 
-module.exports = async (bot, msg) => {
+module.exports = async(bot, msg) => {
     if (msg.attachments.array().length > 0) {
         try {
             const attachment = msg.attachments.array()[0];
@@ -12,8 +12,8 @@ module.exports = async (bot, msg) => {
 
             const log_channel = await bot.channels.fetch(channels.log_channel);
 
-            const file = firebase.storage.file(`${msg.guild.id}${msg.id}.${type}`);
-            const data = await file.get().then(res => res).catch(e => console.log(e));
+            const file = firebase.storage.file(`${msg.guild.id}/${msg.id}.${type}`);
+            const data = await file.get();
 
             const embed = new MessageEmbed();
             embed.setTitle('Image Deleted!')
@@ -22,7 +22,7 @@ module.exports = async (bot, msg) => {
                 .setImage(data[1].mediaLink)
                 .setThumbnail(msg.author.avatarURL())
                 .setFooter(`Sent at ${msg.createdAt}`)
-            log_channel.send(embed);
+            await log_channel.send(embed)
         } catch (e) {
             console.log(e);
         }
