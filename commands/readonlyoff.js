@@ -7,7 +7,7 @@ module.exports = {
       
       const msg = args[args.length - 1];
       const guild = msg.guild.id;
-      if (!msg.mentions.channels.array().length > 0) return;
+      if (!msg.mentions.channels.size > 0) return;
       const mentions = msg.mentions.channels.array().map(m => m.id);
 
       const snapshot = await firebase.readDatabaseAt(`${guild}/channels`, 'value');

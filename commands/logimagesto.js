@@ -5,18 +5,18 @@ module.exports = {
   async action(args) {
     try {
       const msg = args[args.length - 1];
-      if (!msg.mentions.channels.array().length > 0) return;
+      if (!msg.mentions.channels.size > 0) return;
 
-      const channel = msg.mentions.channels.array()[0];
-      const log_channel = msg.mentions.channels.array()[0];
+      const channel = msg.mentions.channels.first();
+      const log_channel = msg.mentions.channels.first();
 
       const snapshot = await firebase.readDatabaseAt(`${msg.guild.id}/log_channel`, 'value');
       const value = snapshot.val();
       let active_channel;
 
-      if (value !== "0") {
+      if (value !== "0")
         active_channel = await msg.client.channels.fetch(value);
-      }
+
       //if there is an active log
       if (value !== "0") {
         if (value === channel.id) {

@@ -2,9 +2,9 @@ const firebase = require('../util/firebase.js');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = async(bot, msg) => {
-    if (msg.attachments.array().length > 0) {
+    if (msg.attachments.size > 0) {
         try {
-            const attachment = msg.attachments.array()[0];
+            const attachment = msg.attachments.first();
             const type = attachment.url.match(/.*\.(png|jpeg|jpg|mp4|webp|gif)/)[1];
 
             const snapshot = await firebase.readDatabaseAt(msg.guild.id, 'value');
