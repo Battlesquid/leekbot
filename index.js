@@ -1,7 +1,6 @@
 const { Client } = require('discord.js');
 const fs = require('fs');
-const bot = new Client();
-
+const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 bot.cmds = {};
 
 require('dotenv').config();
@@ -32,12 +31,12 @@ async function load() {
 bot.on('ready', () => {
     bot.user.setPresence({
         activity: {
-            name: 'for messages.',
+            name: `for messages | https://bit.ly/2AHXtXs`,
             type: "WATCHING"
         },
         status: 'online'
     });
-    console.log('Ready, loading commands...')
+    console.log('Ready, loading commands...');
     load();
 });
 
