@@ -5,7 +5,7 @@ module.exports = {
         const message = args[args.length - 1];
         try {
             const channel = message.mentions.channels.first();
-            const name = args[1], emoji = args[2], role = args[3].replace('_', ' ');
+            const name = args[1].replace(/_/g, ' '), emoji = args[2], role = args[3].replace(/_/g, ' ');
             const custom = emoji.match(/\:(\d+)\>/);
 
             const role_validate = message.guild.roles.cache.find(r => r.name === role);

@@ -4,7 +4,7 @@ module.exports = {
     async action(args) {
         const message = args[args.length - 1];
         try {
-            const name = args[1], role = args[2].replace(/_/g, ' ');
+            const name = args[1].replace(/_/g, ' '), role = args[2].replace(/_/g, ' ');
             
             const channel = message.mentions.channels.first();
             const messages = await channel.messages.fetch({ limit: 10 });
