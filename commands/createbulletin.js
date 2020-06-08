@@ -5,7 +5,7 @@ module.exports = {
     async action(args) {
         try {
             const message = args[args.length - 1];
-            const title = args[1], description = args[2].replace(/_/g, ' '), color = args[3];
+            const title = args[1].replace(/_/g, ' '), description = args[2].replace(/_/g, ' '), color = args[3];
             const channel = message.mentions.channels.first();
 
             const embed = createEmbed({ title, color, description });
