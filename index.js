@@ -1,6 +1,6 @@
 const { Client } = require('discord.js');
 const fs = require('fs');
-const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const bot = new Client();
 bot.cmds = {};
 
 require('dotenv').config();
