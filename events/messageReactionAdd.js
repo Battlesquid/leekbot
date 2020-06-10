@@ -1,6 +1,10 @@
 module.exports = async (bot, reaction, user) => {
     try {
         if (user.bot) return;
+        const reactors = await reaction.users.fetch();
+        if(!reactors.has(bot.user.id))
+            return reaction.remove();
+    
         if (reaction.partial)
             await reaction.fetch();
 
