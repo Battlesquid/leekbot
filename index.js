@@ -1,6 +1,6 @@
 const { Client } = require('discord.js');
 const fs = require('fs');
-const bot = new Client();
+const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 bot.cmds = {};
 
 require('dotenv').config();
@@ -34,7 +34,7 @@ bot.on('ready', () => {
             name: `for messages | https://bit.ly/2AHXtXs`,
             type: "WATCHING"
         },
-        status: 'online'
+        status: 'dnd'
     });
     console.log('Ready, loading commands...');
     load();

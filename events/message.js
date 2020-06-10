@@ -23,7 +23,6 @@ module.exports = async (bot, message) => {
             //get the args and add the message to the args server
             const args = message.content.slice(prefix.length).trim().split(/ +/g);
             args.push(message);
-
             //get the command; if it doesn't exist return;
             const command = args.shift();
             if (bot.cmds[command] === undefined) return;
@@ -33,6 +32,7 @@ module.exports = async (bot, message) => {
                 message.reply('you do not have permission to run that command!');
                 return;
             }
+  
 
             //run the command
             bot.cmds[command].action(args);
