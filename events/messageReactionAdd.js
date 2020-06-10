@@ -8,8 +8,9 @@ module.exports = async (bot, reaction, user) => {
         if (reaction.message.author.id === '704383965515218984' && reaction.message.embeds.length > 0) {
 
             const reactors = await reaction.users.fetch();
-            if (!reactors.has(bot.user.id))
-                return reaction.remove();
+            //fix this later
+            // if (!reactors.has(bot.user.id))
+            //     return reaction.remove();
 
             const embed = reaction.message.embeds[0];
             const field = embed.fields.find(field => field.value === reaction.emoji.toString());
