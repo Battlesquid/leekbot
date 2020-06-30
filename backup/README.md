@@ -6,7 +6,7 @@ A bot to keep selected channels clean of messages (attachment only channels). Th
 
 # Commands
 
-### image
+### Image Moderation
 **;readonlyon `[channels]`**
 Takes one or more channels as parameters and disables messages in them. Please note that channels must be mentionable (starts with "#" and is highlighted on hover) and cannot be just plain text!
 

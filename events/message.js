@@ -1,46 +1,27 @@
-const firebase = require('../util/firebase.js');
-const storage = require('../util/storageFunctions.js');
+const { handleConditions } = require('../util/conditionUtil.js');
+require('../util/extendedmap.js');
 
 module.exports = async (bot, message) => {
     if (message.author.bot) return;
+
     try {
-        const prefix = ";"
-        const snapshot = await firebase.readDatabaseAt(`${message.guild.id}`, 'value');
-        const server = snapshot.val();
+        handleConditions(message.guild.id, message.channel.id, "message", { message });
 
-        //checks if any message posted in a read-only channel has an attachment
-        //if it doesn't, deletes it
-        if (server.channels !== 0 && server.channels.includes(message.channel.id)) {
-            if (!(message.attachments.size > 0)) {
-                if ((message.content.length > 0 && !message.content.match(process.env.URL_REGEX))) {
-                    message.delete();
-                    return;
-                }
-            }
-        }
-
-        if (message.content.startsWith(prefix)) {
+        if (message.content.startsWith(process.env.PREFIX)) {
             //get the args and add the message to the args server
-            const args = message.content.slice(prefix.length).trim().split(/ +/g);
-            args.push(message);
+            const args = message.content.slice(process.env.PREFIX.length).trim().split(/\s+/g);
+
             //get the command; if it doesn't exist return;
-            const command = args.shift();
-            if (bot.cmds[command] === undefined) return;
+            const [category, command] = args.shift().split('.');
+            if (!bot.commands.nestedGet(category, command)) return;
 
             //make sure that they have permission to run the command
-            if (!(message.member.hasPermission(bot.cmds[command].permission_level) || message.member.id === '423699849767288853')) {
-                message.reply('you do not have permission to run that command!');
-                return;
-            }
-  
+            if (!(message.member.hasPermission(bot.commands.nestedGet(category, command).permission_level) || message.member.id === '423699849767288853'))
+                return message.reply('you do not have permission to run that command!');
 
             //run the command
-            bot.cmds[command].action(args);
+            bot.commands.nestedGet(category, command).action(message, args);
         }
-
-        //if there's an image, upload it to the bucket
-        if (message.attachments.size > 0)
-            storage.uploadFile(message);
 
     } catch (e) {
         message.reply('an error occured!');

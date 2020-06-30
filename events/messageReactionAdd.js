@@ -1,23 +1,12 @@
+const { handleConditions } = require('../util/conditionUtil.js');
+
 module.exports = async (bot, reaction, user) => {
     try {
         if (user.bot) return;
-
         if (reaction.partial)
             await reaction.fetch();
 
-        if (reaction.message.author.id === '704383965515218984' && reaction.message.embeds.length > 0) {
+        handleConditions(reaction.message.guild.id, reaction.message.channel.id, "reactionAdd", { bot, reaction, user });
 
-            const reactors = await reaction.users.fetch();
-            //fix this later
-            // if (!reactors.has(bot.user.id))
-            //     return reaction.remove();
-
-            const embed = reaction.message.embeds[0];
-            const field = embed.fields.find(field => field.value === reaction.emoji.toString());
-
-            const role = reaction.message.guild.roles.cache.find(role => role.name === field.name);
-            const member = await reaction.message.guild.members.fetch(user.id);
-            member.roles.add(role);
-        }
     } catch (e) { console.log(e) }
 }

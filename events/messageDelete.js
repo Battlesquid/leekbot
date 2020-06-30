@@ -1,30 +1,36 @@
 const firebase = require('../util/firebase.js');
+const storage = require('../util/storageFunctions.js');
 const { MessageEmbed } = require('discord.js');
 
-module.exports = async(bot, msg) => {
-    if (msg.attachments.size > 0) {
+module.exports = async (bot, message) => {
+    if (message.attachments.size > 0) {
         try {
-            const attachment = msg.attachments.first();
-            const type = attachment.url.match(/.*\.(png|jpeg|jpg|mp4|webp|gif)/)[1];
+            const snapshot = await firebase.readDatabaseAt(`${message.guild.id}/image/loggingChannel`);
+            if (!snapshot.exists()) return;
+            const loggingChannelID = snapshot.val();
+            const logChannel = await bot.channels.fetch(loggingChannelID);
 
-            const snapshot = await firebase.readDatabaseAt(msg.guild.id, 'value');
-            const channels = snapshot.val();
+            //if the channel was deleted
+            if (!logChannel) return;
 
-            const log_channel = await bot.channels.fetch(channels.log_channel);
+            storage.uploadFile(message, async (message, name) => {
+                try {
+                    console.log("retreiving file");
 
-            const file = firebase.storage.file(`${msg.guild.id}/${msg.id}.${type}`);
-            const data = await file.get();
+                    const file = firebase.storage.file(name);
+                    const data = await file.get();
 
-            const embed = new MessageEmbed();
-            embed.setTitle('Image Deleted!')
-                .setDescription(`Sent by ${msg.author} in ${msg.channel}.`)
-                .setColor(0xEB4034)
-                .setImage(data[1].mediaLink)
-                .setThumbnail(msg.author.avatarURL())
-                .setFooter(`Sent at ${msg.createdAt}`)
-            await log_channel.send(embed)
-        } catch (e) {
-            console.log(e);
-        }
+                    const embed = new MessageEmbed();
+                    embed.setTitle("Image Deleted!")
+                        .setDescription(`Sent by ${message.author} in ${message.channel}.`)
+                        .addField("Message:", message.content || "[no message]")
+                        .setColor(0xEB4034)
+                        .setImage(data[1].mediaLink)
+                        .setThumbnail(message.author.avatarURL())
+                        .setFooter(`Sent at ${message.createdAt}`)
+                    await logChannel.send(embed)
+                } catch (e) { console.log(e); }
+            });
+        } catch (e) { console.log(e) }
     }
 }

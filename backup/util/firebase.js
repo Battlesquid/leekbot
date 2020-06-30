@@ -11,7 +11,7 @@ module.exports = {
   ref(location) {
     return firebase.database().ref(location);
   },
-  readDatabaseAt(ref, event = "value") {
+  readDatabaseAt(ref, event) {
     return firebase.database().ref(ref).once(event).then(res => res).catch(e => console.log(e));
   }
 } 
