@@ -55,8 +55,7 @@ bot.on("ready", () => {
     });
     console.log("Loading commands...");
     loadCommands(["./commands"], "commands", false);
-    console.log(bot.commands);
-
+    
     console.log("Loading events...");
     loadEvents("./events");
     initBatchVerifyScheduler(bot);

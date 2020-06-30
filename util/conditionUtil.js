@@ -10,12 +10,14 @@ module.exports = {
             const guildConditions = snapshot.val(), validConditions = [];
 
             for (const condition in guildConditions) {
-                guildConditions[condition].includes(channel) ? validConditions.push(condition) : "";
+                guildConditions[condition].includes(channel) &&
+                    conditionFunctions[event][condition] ? validConditions.push(condition) : "";
             }
-
             validConditions.forEach(condition =>
-                conditionFunctions[event][condition](params));
-        } catch (e) { console.log(e); }
+                conditionFunctions[event][condition](params))
+        } catch (e) {
+            console.log(e);
+        }
     },
     async pushChannelsToCondition(channels, condition, guildID) {
         try {
