@@ -15,9 +15,7 @@ module.exports = {
             }
             validConditions.forEach(condition =>
                 conditionFunctions[event][condition](params))
-        } catch (e) {
-            console.log(e);
-        }
+        } catch (e) { console.log(e) }
     },
     async pushChannelsToCondition(channels, condition, guildID) {
         try {

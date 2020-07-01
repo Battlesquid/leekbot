@@ -73,12 +73,13 @@ module.exports = {
 			try {
 				const verifySnapshot = await firebase.readDatabaseAt(`${message.guild.id}/verify`);
 				const verifySettings = verifySnapshot.val();
-
-				if (!verifySettings.verifierChannel) {
-					if (message.content.match(verifySettings.regex))
+				
+				if (message.content.match(verifySettings.regex)) {
+					if (!verifySettings.verifierChannel) {
 						await message.react(verifySettings.emoji);
-				} else {
-					await firebase.ref(`${message.guild.id}/verify/batch/${message.author.id}`).set(message.content);
+					} else {
+						await firebase.ref(`${message.guild.id}/verify/batch/${message.author.id}`).set(message.content);
+					}
 				}
 
 
