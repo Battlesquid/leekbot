@@ -30,7 +30,7 @@ module.exports = {
 					try {
 						const guildMember = await reaction.message.guild.members.fetch(field.value.match(/\d+/g)[0]);
 						await guildMember.roles.add(...roleIDs, `User verified by ${user.tag}.`);
-						await guildMember.setNickname(field.name, `User verified by ${user.tag}.`);
+						await guildMember.setNickname(field.name.slice(0, 32), `User verified by ${user.tag}.`);
 					} catch (e) { console.log(e); }
 				})
 
