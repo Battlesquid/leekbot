@@ -8,7 +8,12 @@ module.exports = {
             client.guilds.cache.forEach(async guild => {
                 const verifierSnapshot = await firebase.readDatabaseAt(`${guild.id}/verify`);
                 if (!verifierSnapshot.exists()) return;
+
                 const verifySettings = verifierSnapshot.val();
+                const batch = verifySettings.batch;
+
+                if (!batch) return;
+
                 const verifierChannelID = verifySettings.verifierChannel;
 
                 if (!verifierChannelID) return;
@@ -20,7 +25,7 @@ module.exports = {
                 embed.setTitle("Batch Verify List")
                     .setDescription("Here is the daily verification list");
 
-                for (member in verifySettings.batch) {
+                for (member in batch) {
                     const guildMember = await guild.members.fetch(member);
                     embed.addField(verifySettings.batch[member], `${guildMember.user}`);
                 }

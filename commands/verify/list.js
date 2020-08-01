@@ -7,6 +7,9 @@ module.exports = {
             const verifierSnapshot = await firebase.readDatabaseAt(`${message.guild.id}/verify`);
             if (!verifierSnapshot.exists()) return;
             const verifySettings = verifierSnapshot.val();
+            const batch = verifySettings.batch;
+
+            if (!batch) return message.reply('There are no pending verifications.');
             const verifierChannelID = verifySettings.verifierChannel;
 
             if (!verifierChannelID) return;
@@ -16,7 +19,7 @@ module.exports = {
 
             const embed = new MessageEmbed();
             embed.setTitle("Verification List")
-                .setDescription("Here is the daily verification list");
+                .setDescription("Here is the current verification list");
 
             for (member in verifySettings.batch) {
                 const guildMember = await message.guild.members.fetch(member);
