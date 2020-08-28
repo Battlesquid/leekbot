@@ -48,7 +48,7 @@ function loadEvents(path) {
 bot.on("ready", () => {
     bot.user.setPresence({
         activity: {
-            name: `for messages | https://bit.ly/2AHXtXs`,
+            name: `for messages | ${bot.guilds.cache.size} servers`,
             type: "WATCHING"
         },
         status: "idle"
