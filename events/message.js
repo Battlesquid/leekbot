@@ -24,7 +24,6 @@ module.exports = async (bot, message) => {
         }
 
     } catch (e) {
-        message.reply('an error occured!');
         console.log(e);
     }
 }
