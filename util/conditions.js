@@ -97,6 +97,11 @@ module.exports = {
                 const hasNoAttachments = message.attachments.size === 0;
                 const isLocked = lockedChannels.includes(message.channel.id)
 
+                console.log(process.env.URL_REGEX)
+                console.log(`hasNoLink: ${hasNoLink}\nhasNoAttachments: ${hasNoAttachments}\nisLocked: ${isLocked}\n`)
+                console.log(message.content);
+                console.log(new RegExp(process.env.URL_REGEX));
+
                 console.log(!(new RegExp(process.env.URL_REGEX).test(message.content)));
                 if (isLocked && hasNoAttachments && hasNoLink) message.delete();
             } catch (e) { console.log(e); }
