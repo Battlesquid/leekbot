@@ -93,9 +93,7 @@ module.exports = {
 
 				//checks if any message posted in a read-only channel has an attachment
 				//if it doesn't, deletes it
-				if (lockedChannels.includes(message.channel.id) &&
-					!(message.attachments.size > 0) &&
-					(message.content.length > 0 && !message.content.match(process.env.URL_REGEX))) {
+				if (lockedChannels.includes(message.channel.id) && ((message.attachments.size < 0 && (message.content.length > 0 && !message.content.match(process.env.URL_REGEX))) || (message.content.length > 0 && !message.content.match(process.env.URL_REGEX)))) {
 					message.delete();
 				}
 			} catch (e) { console.log(e); }
