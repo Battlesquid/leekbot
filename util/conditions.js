@@ -93,11 +93,11 @@ module.exports = {
 
                 //checks if any message posted in a read-only channel has an attachment
                 //if it doesn't, deletes it
-                const hasNoLink = !(new RegExp(process.env.URL_REGEX).test(message.content));
+                const hasNoLink = !(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(message.content));
                 const hasNoAttachments = message.attachments.size === 0;
                 const isLocked = lockedChannels.includes(message.channel.id)
 
-                if (!!(isLocked & hasNoAttachments & hasNoLink)) message.delete();
+                if (!!(isLocked & hasNoLink & hasNoAttachments)) message.delete();
             } catch (e) { console.log(e); }
         }
     }
