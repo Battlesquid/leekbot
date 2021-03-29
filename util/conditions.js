@@ -97,7 +97,7 @@ module.exports = {
                 const hasNoAttachments = message.attachments.size === 0;
                 const isLocked = lockedChannels.includes(message.channel.id)
 
-                if (isLocked && hasNoLink && hasNoAttachments) message.delete();
+                if (!!(isLocked & hasNoAttachments & hasNoLink)) message.delete();
             } catch (e) { console.log(e); }
         }
     }
